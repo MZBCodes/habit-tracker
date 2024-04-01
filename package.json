@@ -1,0 +1,19 @@
+{
+  "name": "habit-tracker",
+  "version": "1.0.0",
+  "description": "Tracker to help users track their habits for common habit building programs like the 12 week year or 75 day hard / soft",
+  "main": "frontend/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MZBCodes/habit-tracker.git"
+  },
+  "author": "Neil Bolima",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MZBCodes/habit-tracker/issues"
+  },
+  "homepage": "https://github.com/MZBCodes/habit-tracker#readme"
+}
