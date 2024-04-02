@@ -4,7 +4,7 @@
   "description": "Tracker to help users track their habits for common habit building programs like the 12 week year or 75 day hard / soft",
   "main": "frontend/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node backend/server.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/MZBCodes/habit-tracker/issues"
   },
-  "homepage": "https://github.com/MZBCodes/habit-tracker#readme"
+  "homepage": "https://github.com/MZBCodes/habit-tracker#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.5.0",
+    "mongoose": "^8.2.4"
+  }
 }

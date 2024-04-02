@@ -1,0 +1,18 @@
+{
+    "user": {
+        "username": "test",
+        "password": "password",
+        "habits": [
+            {
+                "title": "Habit 1",
+                "completion status": false
+            },
+            {
+                "title": "Habit 2",
+                "completion status": true
+            }
+        ],
+        "numberOfHabits": 2,
+        "currentScore": "1/2"
+    }
+}
