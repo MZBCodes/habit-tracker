@@ -7,7 +7,7 @@ const habitRoutes = require('./routes/habitRoutes');
 
 const PORT = process.env.PORT || 3000;
 let db = null;
-let documents = null;
+let documents = null;   
 
 mongoose.connect('mongodb://localhost/public', {
     useNewUrlParser: true,
