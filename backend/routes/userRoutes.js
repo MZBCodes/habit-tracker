@@ -48,7 +48,26 @@ router.put('/updateUser', verifyToken, async (req, res) => {
 
 })
 
-router.delete('/deleteUser', verifyToken, (req, res) => {
+router.delete('/deleteUser', verifyToken, async (req, res) => {
+    const userId = req.userId;
+    const { userId: updatedUserId} = req.body;
+    console.log(userId, updatedUserId);
+
+    if (userId != updatedUserId) {
+        return res.status(403).json({ error: 'Forbidden: Authorization Error' });
+    }
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        await user.deleteOne({ _id: userId})
+        res.json({ message: 'User deleted successfully' });
+    }
+    catch (error) {
+        console.error("Error deleting user: ", error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 
 })
 
