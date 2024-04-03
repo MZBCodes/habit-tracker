@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { verifyAdmin, verifyToken } = require('../services/verifyServices')
 
-router.get('/getUsers', async (req, res) => {//TODO: Fix Security on this
+router.get('/getUsers', async (req, res) => {//TODO: Fix Security on this. use JWT to ensure it's an admin. make an internal API. used a shared secret within the code.
     try {
         const users = await User.find();
         res.json(users);
