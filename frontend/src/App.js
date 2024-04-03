@@ -4,7 +4,24 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React from 'react'
 import Navbar from './components/Navbar'
 import Body from './components/Body'
+import instance from './api/axiosSetup'
+import authService from './api/apiService'
 
+const getUsers = async () => {
+  try { 
+    const response = await instance.get('/auth/signin');
+    console.log(response);
+  } catch (error) {
+    console.error("Error getting user", error);
+  }
+}
+
+const signIn = async (username, password) => {
+  try {
+    const token = await authService.login(username, password);
+  } catch {
+  }
+}
 const theme = createTheme({
   palette: {
     primary: {
@@ -30,6 +47,11 @@ const theme = createTheme({
 });
 
 class App extends React.Component {
+  
+  componentDidMount = () => {
+    getUsers();
+    signIn("test2@habits.com", "password")
+  }
   render() {
     return (
       <div>

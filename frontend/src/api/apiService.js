@@ -13,8 +13,8 @@ const instance = axios.create({
 const authService = {
     login: async (email, password) => {
         try {
-            const resposne = await axios.post(`${API_URL}/auth/signin`,  {email, password})
-            const { token } = respose.data;
+            const response = await axios.post(`${API_URL}/auth/signin`,  {email, password})
+            const { token } = response.data;
             localStorage.setItem('token', token)
             return token;
         } catch (error) {
@@ -26,4 +26,4 @@ const authService = {
     }
 }
 
-export default {instance, authService};
+export default authService;

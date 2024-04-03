@@ -5,8 +5,15 @@ const { connectToDatabase, getDb, findDocuments } = require('./config/mongo'); /
 const authRoutes = require('./routes/authRoutes');
 const habitRoutes = require('./routes/habitRoutes');
 const userRoutes = require('./routes/userRoutes');
+const cors = require('cors');
 
-const PORT = process.env.PORT || 3000;
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type,Authorization"
+}
+
+const PORT = process.env.PORT || 5000;
 let db = null;
 let documents = null;   
 
@@ -22,18 +29,15 @@ mongoose.connect('mongodb://localhost/public', {
         .then(() => {
             console.log(documents)
             // Start the Express server after connecting to MongoDB
-            app.listen(PORT, () => {
-                console.log(`Express server running on port ${PORT}`);
-            });
-
+            app.use(cors(corsOptions));
             // Routes
-            app.get('/userID', (req, res) => {
-                res.send(`Hello World! Connected to ${documents[0].user.password}`);
-            });
-
             app.use('/api/auth/', authRoutes)
             app.use('/api/habits/', habitRoutes)
             app.use('/api/user/', userRoutes)
+
+            app.listen(PORT, () => {
+                console.log(`Express server running on port ${PORT}`);
+            });
         })
         .catch((error) => {
             console.error('Failed to connect to MongoDB:', error);
