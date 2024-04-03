@@ -13,6 +13,11 @@
   }
 }
 
+.nav-container {
+  display: flex;
+  flex-direction: row;
+}
+
 .button {
   color: #449D69; 
 }

@@ -1,6 +1,8 @@
 import './App.css';
 import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import React from 'react'
+import Navbar from './components/Navbar'
 
 const theme = createTheme({
   palette: {
@@ -26,17 +28,12 @@ const theme = createTheme({
   },
 });
 
-function App() {
-  return (
-    <div className="App">
-      <ThemeProvider theme={theme} >
-        <Button className="button" color="primary" variant='contained' >
-          Hello, Material-UI
-        </Button>
-      </ThemeProvider>
-
-    </div>
-  );
+class App extends React.Component{
+  render() {
+    return (
+      <Navbar/>
+    );
+  }
 }
 
 export default App;
