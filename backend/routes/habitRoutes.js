@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require('../models/user');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const { verifyAdmin, verifyToken } = require('../services/verifyServices')
+const {verifyToken } = require('../services/verifyServices')
 
 router.put('/addHabit', verifyToken, async (req, res) => {
     console.log("Trying to Add Habit");

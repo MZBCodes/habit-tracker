@@ -32,7 +32,8 @@ router.post('/signin', async (req, res) => {
 
     //check if signin works.
     const existingUser = await User.findOne({ email });
-    if (!existingUser || !await bcrypt.compare(password, existingUser.password)) {
+    console.log(existingUser);
+    if (!existingUser || (!await bcrypt.compare(password, existingUser.password))) {
       console.log("Sign-in failed from: ", email, password)
       return res.status(400).json({ message: 'Email or Password is incorrect' });
     }
@@ -41,7 +42,7 @@ router.post('/signin', async (req, res) => {
     res.status(201).json({ message: 'Signin successful', token: token })
 
   } catch (err) {
-    console.error('Error signing up:', err);
+    console.error('Error signing in:', err);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
