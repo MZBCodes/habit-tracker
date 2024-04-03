@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React from 'react'
 import Navbar from './components/Navbar'
+import Body from './components/Body'
 
 const theme = createTheme({
   palette: {
@@ -28,10 +29,14 @@ const theme = createTheme({
   },
 });
 
-class App extends React.Component{
+class App extends React.Component {
   render() {
     return (
-      <Navbar/>
+      <div>
+        <Navbar />
+        <Body />
+      </div>
+
     );
   }
 }
