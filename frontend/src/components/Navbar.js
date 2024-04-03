@@ -45,7 +45,7 @@ class Navbar extends React.Component {
         return (
             <ThemeProvider theme={theme}>
                 <AppBar position="static" color="primary">
-                    <Container className="nav-container">
+                    <Container sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} >
                         <Typography
                             variant="h6"
                             component="a"
@@ -65,7 +65,7 @@ class Navbar extends React.Component {
                         <Box sx={{ display: { xs: 'none', md: 'flex' } }}> {pages.map((page) => (
                             <Button
                                 key={page}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
+                                sx={{ my: 2, color: 'white', display: 'block', borderColor: "white", marginLeft: 2 }}
                                 variant='outlined'
                             >
                                 {page}
