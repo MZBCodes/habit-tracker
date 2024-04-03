@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const { connectToDatabase, getDb, findDocuments } = require('./config/mongo'); // Import MongoDB connection setup
 const authRoutes = require('./routes/authRoutes');
 const habitRoutes = require('./routes/habitRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const PORT = process.env.PORT || 3000;
 let db = null;
@@ -32,6 +33,7 @@ mongoose.connect('mongodb://localhost/public', {
 
             app.use('/api/auth/', authRoutes)
             app.use('/api/habits/', habitRoutes)
+            app.use('/api/user/', userRoutes)
         })
         .catch((error) => {
             console.error('Failed to connect to MongoDB:', error);

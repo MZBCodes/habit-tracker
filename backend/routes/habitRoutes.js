@@ -3,28 +3,17 @@ const router = express.Router();
 const User = require('../models/user');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const {verifyAdmin, verifyToken} = require('../services/verifyServices')
 
-const verifyToken = (req, res, next) => {
-    const token = req.headers.authorization;
-    if (!token) {
-        return res.status(401).json({ error: 'Unauthorized: No token provided' });
-    }
-
-    jwt.verify(token, '6daea2423d873e7422d22d4fc0bc9c311c4475f68f9c1aaa4960dd1dad56032a', (err, decoded) => {
-        if (err) {
-            return res.status(401).json({ error: 'Unauthorized: Invalid token' });
-        }
-        // Extract user ID from decoded token
-        req.userId = decoded.userId;
-        next();
-    });
-};
-
-router.put('/add', verifyToken, async (req, res) => {
+router.put('/addHabit', verifyToken, async (req, res) => {
     console.log("Trying to Add Habit");
     try {
         const { userEmail, name, description, completionStatus, frequency } = req.body;
-        const associatedUser = await User.findOne({ userEmail })
+        const associatedUser = await User.findOne({ email: userEmail })
+        const allUsers = await User.find();
+        // console.log(allUsers);
+        // console.log(userEmail)
+        // console.log(associatedUser)
         if (!associatedUser) {
             return res.status(400).json({ message: "Associated user not found" })
         }
@@ -106,7 +95,6 @@ router.post('./updateHabit', verifyToken, async (req, res) => {
     } catch {
         res.status(500).json({ message: 'Internal server error' });
     }
-
 })
 
 module.exports = router;

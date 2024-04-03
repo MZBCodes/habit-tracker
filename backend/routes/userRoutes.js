@@ -3,17 +3,19 @@ const router = express.Router();
 const User = require('../models/user');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const {verifyAdmin, verifyToken} = require('../services/verifyServices')
 
-router.put('/getUsers', async (req, res) => {
+router.get('/getUsers', async (req, res) => {
     try {
-        console.log(associatedUser)
-        const habitNames = associatedUser.habits.map(x => x.name);
-        console.log(habitNames)
-        console.log(associatedUser.habits)
-        await associatedUser.save();
-
-        res.response(201).json({ message: "Habit added succesfully" })
+        const users = await User.find();    
+        res.json(users);
     } catch {
         res.status(500).json({ message: 'Internal server error' });
     }
 })
+
+router.get('/internal/getUsers', async (req, res) => {
+    
+})
+
+module.exports = router;
