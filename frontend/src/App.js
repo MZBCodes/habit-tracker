@@ -8,9 +8,9 @@ import instance from './api/axiosSetup'
 import authService from './api/apiService'
 
 const getUsers = async () => {
-  try { 
-    const response = await instance.get('/auth/signin');
-    console.log(response);
+  try {
+    const response = await instance.get('/user/getusers');
+    // console.log(response);
   } catch (error) {
     console.error("Error getting user", error);
   }
@@ -19,7 +19,8 @@ const getUsers = async () => {
 const signIn = async (username, password) => {
   try {
     const token = await authService.login(username, password);
-  } catch {
+  } catch (error) {
+    console.error("Error Signing In")
   }
 }
 const theme = createTheme({
@@ -47,11 +48,19 @@ const theme = createTheme({
 });
 
 class App extends React.Component {
-  
+  constructor(props) {
+    super(props);
+    this.state = {
+    }
+  }
+
+
   componentDidMount = () => {
     getUsers();
-    signIn("test2@habits.com", "password")
+    signIn("test2l@habits.com", "password")
+    localStorage.removeItem('token')
   }
+
   render() {
     return (
       <div>
