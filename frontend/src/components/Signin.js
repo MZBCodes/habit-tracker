@@ -16,6 +16,10 @@ import instance from '../api/axiosSetup'
 import authService from '../api/apiService'
 import { Typography } from '@mui/material';
 
+const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.text(email);
+}
 
 class Signin extends React.Component {
     constructor(props) {
@@ -24,6 +28,9 @@ class Signin extends React.Component {
         this.themeManager = new ThemeManager(props.theme);
         this.themeManager.setBackground("#2d5a3e");
         this.state = {
+            usernameOn: false,
+            emailOn: false,
+            passwordON: false,
             username: "",
             email: "",
             password: "",
@@ -51,11 +58,11 @@ class Signin extends React.Component {
             email: data.get('email'),
             password: data.get('password'),
         }
+        console.log(obj)
         this.setState({
             username: obj.username,
             email: obj.email,
             password: obj.password,
-            error: false, // Reset error state when user types
         });
     };
 
@@ -67,14 +74,34 @@ class Signin extends React.Component {
             email: data.get('email'),
             password: data.get('password'),
         }
+        if (!obj.username){
+            this.state.errorMessage = "Required fields are missing";
+            this.state.errorState = 1;
+            return null;
+        } else if (!obj.email){
+            this.state.errorMessage = "Required fields are missing"
+            this.state.errorState = 2;
+        } else if (!obj.password){
+            this.state.errorMessage = "Required fields are missing"
+            this.state.errorState = 3;
+        } else if (!obj.password.length < 6) {
+            this.state.errorMessage = "Password is too weak"
+            this.state.errorState = 6;
+        } else if (!validateEmail(obj.email)){
+            this.state.errorMessage = "Incorrect Email Format"
+            this.state.errorState = 5
+        }
         try {
             const response = await authService.signup(obj.email, obj.password, obj.username)
-            console.log(response);
         } catch (error) {
             console.log('Sign Up Failed', error.response.data)
-            this.setState(
-                { errorMessage: "Email already exists" }
-            )
+            if (error.response.data == "Email already exists"){
+                this.state.errorState = 4;
+                this.setState({ errorMessage: "Email already exists" })
+            } else {
+                this.state.errorState = 8;
+                this.setState({ errorMessage: "Server Message" })
+            }
         }
     }
 
@@ -133,7 +160,7 @@ class Signin extends React.Component {
                     display: "flex",
                     flexDirection: "column", alignItems: "center", justifyContent: "center"
                 }}>
-                    <Box component="form" onSubmit={this.handleSubmit} noValidate sx={{ mt: 3, display: "flex", flexDirection: "column", alignItems: "center", }}>
+                    <Box component="form" onChange={this.handleChange} onSubmit={this.handleSubmit} noValidate sx={{ mt: 3, display: "flex", flexDirection: "column", alignItems: "center", }}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <TextField
@@ -167,7 +194,7 @@ class Signin extends React.Component {
                                     type="password"
                                     id="password"
                                     autoComplete="new-password"
-                                    error = {errorState == 3 | errorState == 6}
+                                    error = {errorState == 3 || errorState == 6}
                                 />
                             </Grid>
                             {errorMessage && (
@@ -193,7 +220,6 @@ class Signin extends React.Component {
                     <Link href="#" variant="body2">
                         {"Already have an account? Log In"}
                     </Link>
-
                 </Container>
             </ThemeProvider>
         )
