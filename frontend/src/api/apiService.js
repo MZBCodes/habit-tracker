@@ -23,6 +23,15 @@ const authService = {
     },
     logout: () => {
         localStorage.removeItem('token'); // Remove the token from local storage
+    },
+    signup: async (email, password, username) => {
+        try {
+            const response = await axios.post(`${API_URL}/auth/signup`, {username, email, password })
+            return response.data
+        }
+        catch (error) {
+            throw error
+        }
     }
 }
 

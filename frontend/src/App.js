@@ -6,6 +6,7 @@ import Navbar from './components/Navbar'
 import Body from './components/Body'
 import instance from './api/axiosSetup'
 import authService from './api/apiService'
+import SignIn from './components/Signin'
 
 const getUsers = async () => {
   try {
@@ -22,8 +23,8 @@ const signIn = async (username, password) => {
   } catch (error) {
     console.error("Error Signing In")
   }
-}
-const theme = createTheme({
+} 
+const theme = createTheme({ 
   palette: {
     primary: {
       light: '#a4d4b7',
@@ -37,6 +38,9 @@ const theme = createTheme({
       dark: '#753c65',
       contrastText: '#000',
     },
+    error: {
+      main: '#d32f2f'
+    }
   },
   components: {
     MuiButtonBase: {
@@ -64,8 +68,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Navbar />
-        <Body />
+        <SignIn theme={theme}></SignIn>
       </div>
 
     );
