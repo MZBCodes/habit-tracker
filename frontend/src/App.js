@@ -57,14 +57,19 @@ class App extends React.Component {
   }
 
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     let token = localStorage.getItem('token');
-    let verified = authService.verify(token);
-    console.log(verified)
-    if (token && verified === 'Token Verified'){
-      this.setState({ isLoggedIn: true })
+    if (false) {
+      console.log(token)
+        let verified = await authService.verify(token);
+        console.log(verified)
+        if (verified === 'Token Verified') {
+            this.setState({ isLoggedIn: true })
+        } else {
+            this.setState({ isLoggedIn: false })
+        }
     } else {
-      this.setState({ isLoggedIn: false})
+        this.setState({ isLoggedIn: false })
     }
   }
   

@@ -5,14 +5,14 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 const { verifyAdmin, verifyToken, validToken } = require('../services/verifyServices')
 
-router.get('/verify', async (req, res) => {
+router.post('/verify', async (req, res) => {
   try {
+    console.log(req)
     const {token} = req.body;
     console.log(token);
     let isValid = false;
     validToken(token, (isValid) => {
       console.log("Token is valid?: ", isValid)
-      console.log("test")
       if (isValid){
         res.status(200).json("Token Verified");
       } else { 

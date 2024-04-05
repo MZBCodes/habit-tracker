@@ -13,10 +13,11 @@ const instance = axios.create({
 const authService = {
     login: async (email, password) => {
         try {
-            const response = await axios.post(`${API_URL}/auth/signin`,  {email, password})
+            console.log(email, password)
+            const response = await axios.post(`${API_URL}/auth/signin`, { email, password })
             const { token } = response.data;
             localStorage.setItem('token', token)
-            return token;
+            return response
         } catch (error) {
             throw new Error('Login Failed')
         }
@@ -26,7 +27,7 @@ const authService = {
     },
     signup: async (email, password, username) => {
         try {
-            const response = await axios.post(`${API_URL}/auth/signup`, {username, email, password })
+            const response = await axios.post(`${API_URL}/auth/signup`, { username, email, password })
             return response.data
         }
         catch (error) {
@@ -35,7 +36,8 @@ const authService = {
     },
     verify: async (token) => {
         try {
-            const response = await axios.get(`${API_URL}/auth/verify`, {token})
+            console.log("Hey I have a token", token)
+            const response = await axios.post(`${API_URL}/auth/verify`, { token })
             return response.data
         } catch (error) {
             throw error

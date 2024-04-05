@@ -3,10 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 const validToken = (token, callback) => {
-    console.log(token)
     jwt.verify(token, '6daea2423d873e7422d22d4fc0bc9c311c4475f68f9c1aaa4960dd1dad56032a', (err, decoded) => {
         if (err) {
-            console.error(err)
             callback(false)
         } else {
             callback(true)

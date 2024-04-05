@@ -1,6 +1,6 @@
 import '../App.css';
 import Button from '@mui/material/Button';
-import {ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import CSSBaseline from '@mui/material/CssBaseline'
 import Grid from '@mui/material/Grid';
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -8,7 +8,7 @@ import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import {Link as RouterLink} from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import ThemeManager from '../Theme.js'
 import React from 'react'
 import authService from '../api/apiService'
@@ -22,21 +22,18 @@ const validateEmail = (email) => {
 class Signup extends React.Component {
     constructor(props) {
         super(props)
-        console.log(props.theme);
         this.themeManager = new ThemeManager(props.theme);
         this.themeManager.setBackground("#2d5a3e");
         this.state = {
-            usernameOn: false,
             emailOn: false,
             passwordON: false,
-            username: "",
             email: "",
             password: "",
             errorMessage: "",
             errorState: "",
+            isLoggedIn: true
         }
         /*
-        1: Username is empty,
         2: Email is empty
         3: Password is empty
         4: Email is already in use
@@ -52,60 +49,55 @@ class Signup extends React.Component {
     handleChange = (event) => {
         const data = new FormData(event.currentTarget);
         let obj = {
-            username: data.get('Username'),
             email: data.get('email'),
             password: data.get('password'),
         }
-        console.log(obj)
         this.setState({
-            username: obj.username,
             email: obj.email,
             password: obj.password,
         });
     };
 
     handleSubmit = async (event) => {
+        console.log("Hello")
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         let obj = {
-            username: data.get('Username'),
             email: data.get('email'),
             password: data.get('password'),
         }
-        if (!obj.username){
-            this.state.errorMessage = "Required fields are missing";
-            this.state.errorState = 1;
-            return null;
-        } else if (!obj.email){
-            this.state.errorMessage = "Required fields are missing"
-            this.state.errorState = 2;
-        } else if (!obj.password){
-            this.state.errorMessage = "Required fields are missing"
-            this.state.errorState = 3;
-        } else if (!obj.password.length < 6) {
-            this.state.errorMessage = "Password is too weak"
-            this.state.errorState = 6;
-        } else if (!validateEmail(obj.email)){
-            this.state.errorMessage = "Incorrect Email Format"
-            this.state.errorState = 5
-        }
+        console.log(obj)
+        // if (!obj.email) {
+        //     this.setState({ errorMessage: "Required fields are missing" })
+        //     this.setState({ errorState: 2 })
+        // } else if (!obj.password) {
+        //     this.setState({ errorMessage: "Required fields are missing" })
+        //     this.setState({ errorState: 3 })
+        // } else if (!obj.password.length < 6) {
+        //     this.setState({ errorMessage: "Password is too weak" })
+        //     this.setState({ errorState: 6 })
+        // } else if (!validateEmail(obj.email)) {
+        //     this.setState({ errorMessage: "Incorrect Email Format" })
+        //     this.setState({ errorState: 7 })
+        // } else {
         try {
-            const response = await authService.signup(obj.email, obj.password, obj.username)
-        } catch (error) {
-            console.log('Sign Up Failed', error.response.data)
-            if (error.response.data == "Email already exists"){
-                this.state.errorState = 4;
-                this.setState({ errorMessage: "Email already exists" })
-            } else {
-                this.state.errorState = 8;
-                this.setState({ errorMessage: "Server Message" })
+            const stuff = await authService.login(obj.email, obj.password)
+            if (stuff) {
+                console.log(localStorage.getItem('token'))
+                this.setState({ isLoggedIn: true })
+                this.setState({ errorState: 0 })
+                this.setState({ errorMessage: "" })
             }
+        } catch (error) {
+            console.error('Log In Failed', error)
+            this.setState({ errorState: 8 })
+            this.setState({ errorMessage: "Server Message" })
         }
     }
 
 
     render() {
-        const {errorMessage, errorState} = this.state
+        const { errorMessage, errorState } = this.state
         return (
             <ThemeProvider theme={this.themeManager.theme}>
                 <CSSBaseline />
@@ -183,7 +175,7 @@ class Signup extends React.Component {
                                     type="password"
                                     id="password"
                                     autoComplete="new-password"
-                                    error = {errorState == 3 || errorState == 6}
+                                    error={errorState == 3 || errorState == 6}
                                 />
                             </Grid>
                             {errorMessage && (
@@ -198,15 +190,18 @@ class Signup extends React.Component {
                                 />
                             </Grid>
                         </Grid>
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            component={RouterLink}
-                            to="/"
-                            sx={{ mt: 3, mb: 2, width: "60%", fontSize: 24 }}
-                        >
-                            Register
-                        </Button>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                href="/"
+                                sx={{ mt: 3, mb: 2, width: "60%", fontSize: 24, textDecoration: "none" }}
+                            >
+                                <RouterLink className='link' to="/" >
+                                    <Container sx={{textDecoration: "none" }}>
+                                        Log In
+                                    </Container>
+                                </RouterLink>
+                            </Button>
                     </Box>
                     <RouterLink to="/register" variant="body2">
                         {"Don't have an account? Register here"}

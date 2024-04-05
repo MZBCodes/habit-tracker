@@ -6,6 +6,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
+import authService from '../api/apiService.js'
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import ThemeManager from '../Theme.js'
@@ -20,10 +21,27 @@ class Navbar extends React.Component {
         this.themeManager = new ThemeManager(props.theme)
         this.state = {
             anchorElNav: null,
-            anchorElUser: null
+            anchorElUser: null,
+            isLoggedIn: false
         }
-        if (this.props.isLoggedIn) {
+        this.setState({isLoggedIn : this.props.isLoggedIn})
+    }
 
+    componentDidMount = async () => {
+        let token = localStorage.getItem('token');
+        if (token) {
+            console.log(token)
+            let verified = await authService.verify(token);
+            console.log(verified)
+            if (verified === 'Token Verified') {
+                console.log("I'm verifying")
+                this.setState({ isLoggedIn: true })
+                console.log(this.state.isLoggedIn)
+            } else {
+                this.setState({ isLoggedIn: false })
+            }
+        } else {
+            this.setState({ isLoggedIn: false })
         }
     }
 
@@ -94,7 +112,6 @@ class Navbar extends React.Component {
                                     letterSpacing: '.3rem',
                                     color: 'inherit',
                                     textDecoration: 'none',
-                                    marginTop: 10
                                 }}
                             >Username</Typography>
                             )}
