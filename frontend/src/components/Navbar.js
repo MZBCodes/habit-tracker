@@ -10,7 +10,7 @@ import Container from '@mui/material/Container';
 import theme from '../Theme.js'
 import React from 'react'
 
-const pages = ['Sign-In', 'Sign-Out']
+let pages = ['Sign In', 'Sign Up']
 
 class Navbar extends React.Component {
     constructor(props) {
@@ -18,6 +18,9 @@ class Navbar extends React.Component {
         this.state = {
             anchorElNav: null,
             anchorElUser: null
+        }
+        if (this.props.isLoggedIn) {
+
         }
     }
 
@@ -59,16 +62,23 @@ class Navbar extends React.Component {
                         >
                             Habit.io
                         </Typography>
-                        <Box sx={{ display: { xs: 'none', md: 'flex' } }}> {pages.map((page) => (
-                            <Button
-                                key={page}
-                                sx={{ my: 2, color: 'white', display: 'block', borderColor: "white", marginLeft: 2 }}
-                                variant='outlined'
-                            >
-                                {page}
-                            </Button>
-                        ))}
-                        </Box>
+                        {!this.state.isLoggedIn ? 
+                        (
+                            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                                {pages.map((page) => (
+                                    <Button
+                                        key={page}
+                                        sx={{ my: 2, color: 'white', display: 'block', borderColor: "white", marginLeft: 2 }}
+                                        variant='outlined'
+                                    >
+                                        {page}
+                                    </Button>
+                                ))}
+                            </Box>
+                        ) : ({
+
+                        })
+                        }
                     </Container>
                 </AppBar>
             </ThemeProvider>

@@ -7,6 +7,7 @@ import Body from './components/Body'
 import instance from './api/axiosSetup'
 import authService from './api/apiService'
 import SignIn from './components/Signin'
+import { Container } from '@mui/material';
 
 const getUsers = async () => {
   try {
@@ -17,14 +18,7 @@ const getUsers = async () => {
   }
 }
 
-const signIn = async (username, password) => {
-  try {
-    const token = await authService.login(username, password);
-  } catch (error) {
-    console.error("Error Signing In")
-  }
-} 
-const theme = createTheme({ 
+const theme = createTheme({
   palette: {
     primary: {
       light: '#a4d4b7',
@@ -55,20 +49,27 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoggedIn: false
+
     }
   }
 
 
   componentDidMount = () => {
-    getUsers();
-    signIn("test2l@habits.com", "password")
-    localStorage.removeItem('token')
+    if (localStorage.getItem('token')) {
+      this.setState({ isLoggedIn: true })
+    }
   }
 
   render() {
     return (
       <div>
-        <SignIn theme={theme}></SignIn>
+        <ThemeProvider>
+          <Container>
+            <Navbar isLoggedIn={this.state.isLoggedIn}></Navbar>
+            <Body></Body>
+          </Container>
+        </ThemeProvider>
       </div>
 
     );
