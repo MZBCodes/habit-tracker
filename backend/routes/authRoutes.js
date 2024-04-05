@@ -7,7 +7,6 @@ const { verifyAdmin, verifyToken, validToken } = require('../services/verifyServ
 
 router.post('/verify', async (req, res) => {
   try {
-    console.log(req)
     const {token} = req.body;
     console.log(token);
     let isValid = false;
@@ -59,6 +58,7 @@ router.post('/signin', async (req, res) => {
     }
 
     const token = jwt.sign({ userId: existingUser._id }, '6daea2423d873e7422d22d4fc0bc9c311c4475f68f9c1aaa4960dd1dad56032a', {expiresIn: '1h'});
+    
     res.status(201).json({ message: 'Signin successful', token: token })
 
   } catch (err) {

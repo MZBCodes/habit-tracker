@@ -19,6 +19,8 @@ const validateEmail = (email) => {
     return emailRegex.text(email);
 }
 
+
+
 class Signup extends React.Component {
     constructor(props) {
         super(props)
@@ -46,6 +48,12 @@ class Signup extends React.Component {
 
     componentDidMount() {
     }
+
+    removeLocalStorageItem = () => {
+        localStorage.removeItem('token')
+        console.log("removed")
+    }
+
     handleChange = (event) => {
         const data = new FormData(event.currentTarget);
         let obj = {
@@ -129,6 +137,7 @@ class Signup extends React.Component {
                         Habit.io
                     </Typography><Typography
                         component="h6"
+                        onClick={this.removeLocalStorageItem}
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -190,18 +199,17 @@ class Signup extends React.Component {
                                 />
                             </Grid>
                         </Grid>
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                href="/"
-                                sx={{ mt: 3, mb: 2, width: "60%", fontSize: 24, textDecoration: "none" }}
-                            >
-                                <RouterLink className='link' to="/" >
-                                    <Container sx={{textDecoration: "none" }}>
-                                        Log In
-                                    </Container>
-                                </RouterLink>
-                            </Button>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2, width: "60%", fontSize: 24, textDecoration: "none" }}
+                        >
+                            <RouterLink className='link' to="/" >
+                                <Container sx={{ textDecoration: "none" }}>
+                                    Log In
+                                </Container>
+                            </RouterLink>
+                        </Button>
                     </Box>
                     <RouterLink to="/register" variant="body2">
                         {"Don't have an account? Register here"}

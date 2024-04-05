@@ -5,6 +5,24 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { verifyAdmin, verifyToken } = require('../services/verifyServices')
 
+router.get('/getUsername', verifyToken, async (req, res) => {
+    const userId = req.userId;
+    console.log(userId);
+
+    try {
+        const {email} = req.body
+        const user = await User.findById(userId)
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.send({username: user.username})
+    } catch (error) {
+        res.status(500).json({message: "Internal Server Error"})
+    }
+})
+
 router.get('/getUsers', async (req, res) => {//TODO: Fix Security on this. use JWT to ensure it's an admin. make an internal API. used a shared secret within the code.
     try {
         const users = await User.find();

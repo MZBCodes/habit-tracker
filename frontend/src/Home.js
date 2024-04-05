@@ -18,7 +18,9 @@ class Home extends React.Component {
 
 
     componentDidMount = async () => {
+        console.log("Home")
         let token = localStorage.getItem('token');
+        console.log("token: ", token)
         if (token) {
             console.log(token)
             let verified = await authService.verify(token);

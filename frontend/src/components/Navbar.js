@@ -22,12 +22,12 @@ class Navbar extends React.Component {
         this.state = {
             anchorElNav: null,
             anchorElUser: null,
-            isLoggedIn: false
+            isLoggedIn: this.props.isLoggedIn
         }
-        this.setState({isLoggedIn : this.props.isLoggedIn})
     }
 
     componentDidMount = async () => {
+        console.log("Navbar")
         let token = localStorage.getItem('token');
         if (token) {
             console.log(token)
