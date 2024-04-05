@@ -32,6 +32,14 @@ const authService = {
         catch (error) {
             throw error
         }
+    },
+    verify: async (token) => {
+        try {
+            const response = await axios.get(`${API_URL}/auth/verify`, {token})
+            return response.data
+        } catch (error) {
+            throw error
+        }
     }
 }
 

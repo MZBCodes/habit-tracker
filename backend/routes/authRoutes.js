@@ -2,7 +2,27 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const { verifyAdmin, verifyToken, validToken } = require('../services/verifyServices')
+
+router.get('/verify', async (req, res) => {
+  try {
+    const {token} = req.body;
+    console.log(token);
+    let isValid = false;
+    validToken(token, (isValid) => {
+      console.log("Token is valid?: ", isValid)
+      console.log("test")
+      if (isValid){
+        res.status(200).json("Token Verified");
+      } else { 
+        res.status(403).json("Invalid Token")
+      }
+    });
+  } catch (error) {
+    res.status(500).json("Internal Server Error")
+  }
+})
 
 router.post('/signup', async (req, res) => {
   try {

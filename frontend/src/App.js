@@ -1,13 +1,16 @@
 import './App.css';
 import Button from '@mui/material/Button';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React from 'react'
 import Navbar from './components/Navbar'
 import Body from './components/Body'
 import instance from './api/axiosSetup'
 import authService from './api/apiService'
-import SignIn from './components/Signin'
+import Signin from './components/Signin'
+import Home from './Home'
 import { Container } from '@mui/material';
+import Signup from './components/Signup';
 
 const getUsers = async () => {
   try {
@@ -50,28 +53,30 @@ class App extends React.Component {
     super(props);
     this.state = {
       isLoggedIn: false
-
     }
   }
 
 
   componentDidMount = () => {
-    if (localStorage.getItem('token')) {
+    let token = localStorage.getItem('token');
+    let verified = authService.verify(token);
+    console.log(verified)
+    if (token && verified === 'Token Verified'){
       this.setState({ isLoggedIn: true })
+    } else {
+      this.setState({ isLoggedIn: false})
     }
   }
-
+  
   render() {
     return (
-      <div>
-        <ThemeProvider>
-          <Container>
-            <Navbar isLoggedIn={this.state.isLoggedIn}></Navbar>
-            <Body></Body>
-          </Container>
-        </ThemeProvider>
-      </div>
-
+      <Router>
+        <Routes>
+          <Route exact path="/" element={<Home theme={theme}/>} />
+          <Route path="/register" element={<Signup theme={theme}/>} />
+          <Route path="/login" element={<Signin theme={theme}/>} />
+        </Routes>
+      </Router>
     );
   }
 }

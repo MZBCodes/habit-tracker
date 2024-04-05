@@ -1,6 +1,6 @@
 import '../App.css';
 import Button from '@mui/material/Button';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {ThemeProvider } from '@mui/material/styles';
 import CSSBaseline from '@mui/material/CssBaseline'
 import Grid from '@mui/material/Grid';
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -8,11 +8,9 @@ import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link'
+import {Link as RouterLink} from 'react-router-dom'
 import ThemeManager from '../Theme.js'
-import api from '..'
 import React from 'react'
-import instance from '../api/axiosSetup'
 import authService from '../api/apiService'
 import { Typography } from '@mui/material';
 
@@ -21,7 +19,7 @@ const validateEmail = (email) => {
     return emailRegex.text(email);
 }
 
-class Signin extends React.Component {
+class Signup extends React.Component {
     constructor(props) {
         super(props)
         console.log(props.theme);
@@ -123,7 +121,8 @@ class Signin extends React.Component {
                 }}>
                     <Typography
                         variant="h2"
-                        component="a"
+                        component={RouterLink}
+                        to="/"
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -133,6 +132,7 @@ class Signin extends React.Component {
                             color: 'white',
                             textDecoration: 'none',
                         }}
+
                     >
                         Habit.io
                     </Typography><Typography
@@ -149,7 +149,7 @@ class Signin extends React.Component {
                             textDecoration: 'none',
                         }}
                     >
-                        Sign-Up
+                        Sign-In
                     </Typography>
                 </Container>
                 <Container sx={{
@@ -162,17 +162,6 @@ class Signin extends React.Component {
                 }}>
                     <Box component="form" onChange={this.handleChange} onSubmit={this.handleSubmit} noValidate sx={{ mt: 3, display: "flex", flexDirection: "column", alignItems: "center", }}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    error = {errorState == 1}
-                                    id="Username"
-                                    label="Username"
-                                    name="Username"
-                                    helperText={errorState == 1 ? 'Username cannot be empty' : ''}
-                                />
-                            </Grid>
                             <Grid item xs={12}>
                                 <TextField
                                     error={errorState == 2 || errorState == 4 || errorState == 5}
@@ -212,14 +201,16 @@ class Signin extends React.Component {
                         <Button
                             type="submit"
                             variant="contained"
+                            component={RouterLink}
+                            to="/"
                             sx={{ mt: 3, mb: 2, width: "60%", fontSize: 24 }}
                         >
-                            Sign Up
+                            Register
                         </Button>
                     </Box>
-                    <Link href="#" variant="body2">
-                        {"Already have an account? Log In"}
-                    </Link>
+                    <RouterLink to="/register" variant="body2">
+                        {"Don't have an account? Register here"}
+                    </RouterLink>
                 </Container>
             </ThemeProvider>
         )
@@ -228,4 +219,4 @@ class Signin extends React.Component {
 
 }
 
-export default Signin
+export default Signup
