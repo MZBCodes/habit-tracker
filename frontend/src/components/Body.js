@@ -38,7 +38,15 @@ class Body extends React.Component {
     }
 
     render() {
-        return this.state.isLoggedIn ? (<div>{this.state.habits.map((x, index) => <div key={`${x.name}`}>{x.name}</div>)}</div>) : (
+        console.log(this.state.habits == false)
+        return this.state.isLoggedIn ? (
+            this.state.habits ? (
+                <div>{this.state.habits.map((x, index) => <div key={`${x.name}`}>{x.name}</div>)}</div>
+            ) : (
+                <Typography variant="h4" component="h4">
+                </Typography>
+            )
+        ) : (
             <Typography
                 variant="h4"
                 component="h4"
