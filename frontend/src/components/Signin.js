@@ -8,7 +8,7 @@ import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, redirect, Navigate } from 'react-router-dom'
 import ThemeManager from '../Theme.js'
 import React from 'react'
 import authService from '../api/apiService'
@@ -33,6 +33,7 @@ class Signup extends React.Component {
             password: "",
             errorMessage: "",
             errorState: "",
+            tokenRecieved: false,
             isLoggedIn: true
         }
         /*
@@ -93,6 +94,7 @@ class Signup extends React.Component {
             if (stuff) {
                 console.log(localStorage.getItem('token'))
                 this.setState({ isLoggedIn: true })
+                this.setState({ tokenRecieved: true })
                 this.setState({ errorState: 0 })
                 this.setState({ errorMessage: "" })
             }
@@ -103,10 +105,17 @@ class Signup extends React.Component {
         }
     }
 
+    redirectHomePage() {
+        return redirect("/")
+    }
+
 
     render() {
-        const { errorMessage, errorState } = this.state
-        return (
+        const { errorMessage, errorState } = this.state;
+
+        return this.state.tokenRecieved ? (
+            <Navigate replace to="/"></Navigate>) : (
+
             <ThemeProvider theme={this.themeManager.theme}>
                 <CSSBaseline />
                 <Container maxWidth="sm" sx={{
@@ -204,11 +213,9 @@ class Signup extends React.Component {
                             variant="contained"
                             sx={{ mt: 3, mb: 2, width: "60%", fontSize: 24, textDecoration: "none" }}
                         >
-                            <RouterLink className='link' to="/" >
                                 <Container sx={{ textDecoration: "none" }}>
                                     Log In
                                 </Container>
-                            </RouterLink>
                         </Button>
                     </Box>
                     <RouterLink to="/register" variant="body2">

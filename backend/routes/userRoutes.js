@@ -10,7 +10,6 @@ router.get('/getUsername', verifyToken, async (req, res) => {
     console.log(userId);
 
     try {
-        const {email} = req.body
         const user = await User.findById(userId)
 
         if (!user) {
