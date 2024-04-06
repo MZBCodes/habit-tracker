@@ -11,7 +11,7 @@ import Container from '@mui/material/Container';
 import { Link as RouterLink, redirect, Navigate } from 'react-router-dom'
 import ThemeManager from '../Theme.js'
 import React from 'react'
-import authService from '../api/apiService'
+import {authService} from '../api/apiService'
 import { Typography } from '@mui/material';
 
 const validateEmail = (email) => {

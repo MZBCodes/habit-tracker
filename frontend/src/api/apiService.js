@@ -45,4 +45,19 @@ const authService = {
     }
 }
 
-export default authService;
+const userService = {
+    getUserName: async () => {
+        try {
+            const response = await axios.get(`${API_URL}/user/getUsername`, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            })
+            return response
+        } catch (error) {
+            throw new Error('Login Failed')
+        }
+    }
+}
+
+export {authService, userService};

@@ -6,7 +6,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import authService from '../api/apiService.js'
+import {authService} from '../api/apiService.js'
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import ThemeManager from '../Theme.js'
@@ -22,7 +22,8 @@ class Navbar extends React.Component {
         this.state = {
             anchorElNav: null,
             anchorElUser: null,
-            isLoggedIn: this.props.isLoggedIn
+            isLoggedIn: this.props.isLoggedIn,
+            username: this.props.username
         }
     }
 
@@ -113,7 +114,7 @@ class Navbar extends React.Component {
                                     color: 'inherit',
                                     textDecoration: 'none',
                                 }}
-                            >Username</Typography>
+                            >{this.state.username}</Typography>
                             )}
                     </Container>
                 </AppBar>

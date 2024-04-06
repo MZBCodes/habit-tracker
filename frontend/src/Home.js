@@ -3,7 +3,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React from 'react'
 import Navbar from './components/Navbar'
 import Body from './components/Body'
-import authService from './api/apiService'
+import {authService, userService} from './api/apiService'
 import { Container } from '@mui/material';
 
 
@@ -12,6 +12,7 @@ class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            username: "",
             isLoggedIn: false
         }
     }
@@ -24,9 +25,11 @@ class Home extends React.Component {
         if (token) {
             console.log(token)
             let verified = await authService.verify(token);
-            console.log(verified)
             if (verified === 'Token Verified') {
                 console.log("I'm verifying")
+                let response = await userService.getUserName();
+                console.log(response.data.username);
+                this.setState({username: response.data.username})
                 this.setState({ isLoggedIn: true })
                 console.log(this.state.isLoggedIn)
             } else {
@@ -41,7 +44,7 @@ class Home extends React.Component {
         return (
             <ThemeProvider theme={this.props.theme}>
                 <Container maxWidth="100%" disableGutters={true} sx={{ m: 0, p: 0, width: "100%" }}>
-                    <Navbar isLoggedIn={this.state.isLoggedIn} theme={this.props.theme}></Navbar>
+                    <Navbar username={this.state.username} isLoggedIn={this.state.isLoggedIn} theme={this.props.theme}></Navbar>
                     <Body></Body>
                 </Container>
             </ThemeProvider>

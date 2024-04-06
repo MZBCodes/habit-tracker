@@ -6,7 +6,7 @@ import React from 'react'
 import Navbar from './components/Navbar'
 import Body from './components/Body'
 import instance from './api/axiosSetup'
-import authService from './api/apiService'
+import {authService} from './api/apiService'
 import Signin from './components/Signin'
 import Home from './Home'
 import { Container } from '@mui/material';
