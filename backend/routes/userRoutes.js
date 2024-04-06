@@ -24,6 +24,25 @@ router.get('/getUsername', verifyToken, async (req, res) => {
     }
 })
 
+router.get('/getHabits', verifyToken, async (req, res) => {
+    const userId = req.userId;
+    console.log(userId);
+
+    try {
+        const user = await User.findById(userId)
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        console.log(user)
+
+        res.send({habits: user.habits})
+    } catch (error) {
+        res.status(500).json({message: "Internal Server Error"})
+    }
+})
+
 router.get('/getUsers', async (req, res) => {//TODO: Fix Security on this. use JWT to ensure it's an admin. make an internal API. used a shared secret within the code.
     try {
         const users = await User.find();

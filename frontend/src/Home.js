@@ -17,14 +17,12 @@ class Home extends React.Component {
         }
     }
 
-
     componentDidMount = async () => {
         let token = localStorage.getItem('token');
         if (token) {
             let verified = await authService.verify(token);
             if (verified === 'Token Verified') {
                 let response = await userService.getUserName();
-                console.log(response)
                 this.setState({username: response})
                 this.setState({ isLoggedIn: true })
             } else {
@@ -43,7 +41,6 @@ class Home extends React.Component {
                     <Body></Body>
                 </Container>
             </ThemeProvider>
-
         );
     }
 }

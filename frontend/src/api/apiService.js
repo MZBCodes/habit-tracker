@@ -56,6 +56,19 @@ const userService = {
         } catch (error) {
             throw new Error('Login Failed')
         }
+    },
+    getHabits: async() => {
+        try {
+            const response = await axios.get(`${API_URL}/user/getHabits`, {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            })
+            console.log(response.data.habits)
+            return response.data.habits
+        } catch (error) {
+            throw new Error('Failed to retrieve Habits')
+        }
     }
 }
 
