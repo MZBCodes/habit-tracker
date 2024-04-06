@@ -16,6 +16,8 @@ router.get('/getUsername', verifyToken, async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
+        console.log(user)
+
         res.send({username: user.username})
     } catch (error) {
         res.status(500).json({message: "Internal Server Error"})

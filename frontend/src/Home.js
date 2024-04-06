@@ -19,19 +19,14 @@ class Home extends React.Component {
 
 
     componentDidMount = async () => {
-        console.log("Home")
         let token = localStorage.getItem('token');
-        console.log("token: ", token)
         if (token) {
-            console.log(token)
             let verified = await authService.verify(token);
             if (verified === 'Token Verified') {
-                console.log("I'm verifying")
                 let response = await userService.getUserName();
-                console.log(response.data.username);
-                this.setState({username: response.data.username})
+                console.log(response)
+                this.setState({username: response})
                 this.setState({ isLoggedIn: true })
-                console.log(this.state.isLoggedIn)
             } else {
                 this.setState({ isLoggedIn: false })
             }

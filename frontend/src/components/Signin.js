@@ -52,7 +52,6 @@ class Signup extends React.Component {
 
     removeLocalStorageItem = () => {
         localStorage.removeItem('token')
-        console.log("removed")
     }
 
     handleChange = (event) => {
@@ -68,7 +67,6 @@ class Signup extends React.Component {
     };
 
     handleSubmit = async (event) => {
-        console.log("Hello")
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         let obj = {

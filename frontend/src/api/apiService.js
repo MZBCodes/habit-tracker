@@ -13,7 +13,6 @@ const instance = axios.create({
 const authService = {
     login: async (email, password) => {
         try {
-            console.log(email, password)
             const response = await axios.post(`${API_URL}/auth/signin`, { email, password })
             const { token } = response.data;
             localStorage.setItem('token', token)
@@ -36,7 +35,6 @@ const authService = {
     },
     verify: async (token) => {
         try {
-            console.log("Hey I have a token", token)
             const response = await axios.post(`${API_URL}/auth/verify`, { token })
             return response.data
         } catch (error) {
@@ -53,7 +51,8 @@ const userService = {
                     'Authorization': localStorage.getItem('token')
                 }
             })
-            return response
+            console.log(response.data.username)
+            return response.data.username
         } catch (error) {
             throw new Error('Login Failed')
         }

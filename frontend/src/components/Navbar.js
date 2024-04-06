@@ -6,7 +6,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import {authService} from '../api/apiService.js'
+import {authService, userService} from '../api/apiService.js'
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import ThemeManager from '../Theme.js'
@@ -27,17 +27,15 @@ class Navbar extends React.Component {
         }
     }
 
+
     componentDidMount = async () => {
-        console.log("Navbar")
         let token = localStorage.getItem('token');
         if (token) {
-            console.log(token)
             let verified = await authService.verify(token);
-            console.log(verified)
             if (verified === 'Token Verified') {
-                console.log("I'm verifying")
+                let response = await userService.getUserName();
+                this.setState({username: response})
                 this.setState({ isLoggedIn: true })
-                console.log(this.state.isLoggedIn)
             } else {
                 this.setState({ isLoggedIn: false })
             }
@@ -66,8 +64,8 @@ class Navbar extends React.Component {
         const { anchorElNav, anchorElUser } = this.state;
         return (
             <ThemeProvider theme={this.themeManager.theme}>
-                <AppBar sx={{ m: 0, }} position="static" color="primary">
-                    <Container sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} >
+                <AppBar sx={{ m: 0, minHeight: 70 }} position="static" color="primary">
+                    <Container sx={{ minHeight: 70, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} >
                         <Typography
                             variant="h6"
                             component="a"
