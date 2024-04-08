@@ -6,14 +6,11 @@ const jwt = require('jsonwebtoken')
 const {verifyToken } = require('../services/verifyServices')
 
 router.put('/addHabit', verifyToken, async (req, res) => {
-    console.log("Trying to Add Habit");
+    const userId = req.userId;
     try {
-        const { userEmail, name, description, completionStatus, frequency } = req.body;
-        const associatedUser = await User.findOne({ email: userEmail })
-        const allUsers = await User.find();
-        // console.log(allUsers);
-        // console.log(userEmail)
-        // console.log(associatedUser)
+        const user = await User.findById(userId)
+        const { name, description, completionStatus, frequency } = req.body;
+        const associatedUser = await User.findById( userId )
         if (!associatedUser) {
             return res.status(400).json({ message: "Associated user not found" })
         }
@@ -41,20 +38,18 @@ router.put('/addHabit', verifyToken, async (req, res) => {
 })
 
 router.get('/getHabits', verifyToken, async (req, res) => {
-    console.log("Trying to get Habit");
+    const userId = req.userId;
     try {
-        const { email } = req.body;
-        console.log(email)
-        const associatedUser = await User.findOne({ email })
-        console.log(associatedUser)
-        if (!associatedUser) {
+        const user = await User.findById(userId)
+        console.log(user)
+        if (!user) {
             console.log("Bad");
             return res.status(400).json({ message: "Associated user not found" })
         }
-        console.log(associatedUser.habits)
+        console.log(user.habits)
         res.json({
             message: "Habits retrieved succesfully",
-            habits: associatedUser.habits
+            habits: user.habits
         })
     } catch {
         res.status(500).json({ message: 'Internal server error' });
@@ -62,12 +57,12 @@ router.get('/getHabits', verifyToken, async (req, res) => {
 })
 
 router.put('/updateHabit', verifyToken, async (req, res) => {
+    const userId = req.userId;
     try {
-        const { email, name, newName, description, completionStatus, frequency } = req.body;
-        console.log(email)
-        const associatedUser = await User.findOne({ email })
-        console.log(associatedUser)
-        if (!associatedUser) {
+        const user = await User.findById(userId)
+        const { name, newName, description, completionStatus, frequency } = req.body;
+        console.log(user)
+        if (!user) {
             console.log("Bad");
             return res.status(400).json({ message: "Associated user not found" })
         }
@@ -78,10 +73,10 @@ router.put('/updateHabit', verifyToken, async (req, res) => {
             frequency: frequency
         }
         let habitFound = false;
-        for (let i = 0; i < associatedUser.habits.length; i++) {
-            console.log(associatedUser.habits[i].name, name)
-            if (associatedUser.habits[i].name == name) {
-                associatedUser.habits[i] = newHabit;
+        for (let i = 0; i < user.habits.length; i++) {
+            console.log(user.habits[i].name, name)
+            if (user.habits[i].name == name) {
+                user.habits[i] = newHabit;
                 habitFound = true;
                 break;
             }
@@ -89,10 +84,10 @@ router.put('/updateHabit', verifyToken, async (req, res) => {
         if (!habitFound) {
             return res.status(400).json({ message: "Habit of requested name not found" })
         }
-        await associatedUser.save();
+        await user.save();
         res.json({
             message: "Habits changed succesfully",
-            habits: associatedUser.habits
+            habits: user.habits
         })
     } catch (error) {
         console.error("Error", error)
@@ -101,21 +96,21 @@ router.put('/updateHabit', verifyToken, async (req, res) => {
 })
 
 router.delete('/deleteHabit', verifyToken, async (req, res) => {
+    const userId = req.userId;
     try {
-        const { email, habitName, } = req.body;
-        console.log(email)
-        const associatedUser = await User.findOne({ email })
-        console.log(associatedUser)
-        if (!associatedUser) {
+        const user = await User.findById(userId)
+        const { habitName } = req.body;
+        console.log(user)
+        if (!user) {
             console.log("Bad");
             return res.status(400).json({ message: "Associated user not found" })
         }
-        let numHabits = associatedUser.habits.length;
+        let numHabits = user.habits.length;
         let habitFound = false;
-        for (let i = 0; i < associatedUser.habits.length; i++) {
-            console.log(associatedUser.habits[i].name, habitName)
-            if (associatedUser.habits[i].name == habitName) {
-                associatedUser.habits.splice(i, 1);
+        for (let i = 0; i < user.habits.length; i++) {
+            console.log(user.habits[i].name, habitName)
+            if (user.habits[i].name == habitName) {
+                user.habits.splice(i, 1);
                 habitFound = true;
                 break;
             }
@@ -123,16 +118,16 @@ router.delete('/deleteHabit', verifyToken, async (req, res) => {
         if (!habitFound) {
             return res.status(400).json({ message: "Habit of requested name not found" })
         }
-        await associatedUser.save();
+        await user.save();
 
-        let numNewHabits = associatedUser.habits.length;
+        let numNewHabits = user.habits.length;
         if (numNewHabits >= numHabits) {
             return res.status(400).json({ message: "Habit not deleted correctly" })
         }
         
         res.json({
             message: "Habit deleted succesfully",
-            habits: associatedUser.habits
+            habits: user.habits
         })
 
     } catch (err) {

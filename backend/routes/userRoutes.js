@@ -7,8 +7,6 @@ const { verifyAdmin, verifyToken } = require('../services/verifyServices')
 
 router.get('/getUsername', verifyToken, async (req, res) => {
     const userId = req.userId;
-    console.log(userId);
-
     try {
         const user = await User.findById(userId)
 
