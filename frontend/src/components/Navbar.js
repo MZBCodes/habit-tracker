@@ -61,6 +61,8 @@ class Navbar extends React.Component {
     };
 
     render() {
+        this.themeManager.setPrimaryMain("#449D69")
+        this.themeManager.setPrimaryDark("#2d5a3e")
         const { anchorElNav, anchorElUser } = this.state;
         return (
             <ThemeProvider theme={this.themeManager.theme}>

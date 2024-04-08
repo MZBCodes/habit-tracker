@@ -3,7 +3,17 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 class ThemeManager {
     constructor(theme) {
-        this.theme = theme;
+        this.theme = Object.assign({}, theme);
+    }
+
+    setPrimaryColor(identifier, color) {
+        this.theme.palette.primary[identifier] = color
+    }
+    setSecondaryColor(identifier, color) {
+        this.theme.palette.secondary[identifier] = color
+    }
+    setBackgroundColor(identifier, color) {
+        this.theme.palette.background[identifier] = color
     }
 
     setBackground(color) {
@@ -12,6 +22,10 @@ class ThemeManager {
 
     setPrimaryMain(color) {
         this.theme.palette.primary.main = color
+    }
+
+    setPrimaryDark(color) {
+        this.theme.palette.primary.dark = color
     }
 }
 

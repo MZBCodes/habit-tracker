@@ -72,4 +72,9 @@ const userService = {
     }
 }
 
+const habitService = {
+    addHabit: async() => {
+        
+    }
+}
 export {authService, userService};
