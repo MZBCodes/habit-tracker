@@ -4,9 +4,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import theme from '../Theme.js'
-import {authService, userService} from '../api/apiService.js'
+import { authService, userService } from '../api/apiService.js'
 import React from 'react'
 import Typography from '@mui/material/Typography';
+import TaskModal from './TaskModal.js'
 import Container from '@mui/material/Container';
 
 class Body extends React.Component {
@@ -16,8 +17,16 @@ class Body extends React.Component {
             anchorElNav: null,
             anchorElUser: null,
             isLoggedIn: null,
-            habits: null
+            habits: null,
+            addTaskVisible: null
         }
+    }
+
+    handleOpen = () => {
+        this.setState({ addTaskVisible: true })
+    }
+    handleClose = () => {
+        this.setState({ addTaskVisible: false })
     }
 
     componentDidMount = async () => {
@@ -27,7 +36,7 @@ class Body extends React.Component {
             if (verified === 'Token Verified') {
                 let response = await userService.getHabits();
                 console.log(response)
-                this.setState({ habits: response})
+                this.setState({ habits: response })
                 this.setState({ isLoggedIn: true })
             } else {
                 this.setState({ isLoggedIn: false })
@@ -38,13 +47,18 @@ class Body extends React.Component {
     }
 
     render() {
-        console.log(this.state.habits == false)
+        const { addTaskVisible } = this.state
         return this.state.isLoggedIn ? (
-            this.state.habits ? (
+            this.state.habits.length != 0 ? (
                 <div>{this.state.habits.map((x, index) => <div key={`${x.name}`}>{x.name}</div>)}</div>
             ) : (
-                <Typography variant="h4" component="h4">
-                </Typography>
+                <Container sx={{mt: 10, display: "flex", flexDirection: "Column", alignItems:"center", justifyContent:"center"}}>
+                    <Typography variant="h6" component="h4">
+                        You have no tasks currently. Add more tasks.
+                    </Typography>
+                    <Button sx={{mt:1}}variant="outlined" onClick={this.handleOpen}>Add Tasks</Button>
+                    <TaskModal theme={this.props.theme} handleClose={this.handleClose} openModal={addTaskVisible}></TaskModal>
+                </Container>
             )
         ) : (
             <Typography

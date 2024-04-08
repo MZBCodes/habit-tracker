@@ -9,6 +9,10 @@ class ThemeManager {
     setBackground(color) {
         this.theme.palette.background.default = color;
     }
+
+    setPrimaryMain(color) {
+        this.theme.palette.primary.main = color
+    }
 }
 
 

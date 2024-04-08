@@ -38,7 +38,7 @@ class Home extends React.Component {
             <ThemeProvider theme={this.props.theme}>
                 <Container maxWidth="100%" disableGutters={true} sx={{ m: 0, p: 0, width: "100%" }}>
                     <Navbar username={this.state.username} isLoggedIn={this.state.isLoggedIn} theme={this.props.theme}></Navbar>
-                    <Body></Body>
+                    <Body theme={this.props.theme}></Body>
                 </Container>
             </ThemeProvider>
         );
