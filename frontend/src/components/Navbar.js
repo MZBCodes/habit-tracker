@@ -33,7 +33,12 @@ class Navbar extends React.Component {
         if (token) {
             let verified = await authService.verify(token);
             if (verified === 'Token Verified') {
-                let response = await userService.getUserName();
+                let response;
+                try {
+                    response = await userService.getUserName();
+                } catch(err) {
+                    console.error("Failure to get Username right now", token, verified, err)
+                }
                 this.setState({username: response})
                 this.setState({ isLoggedIn: true })
             } else {

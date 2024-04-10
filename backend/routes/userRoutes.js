@@ -7,14 +7,13 @@ const { verifyAdmin, verifyToken } = require('../services/verifyServices')
 
 router.get('/getUsername', verifyToken, async (req, res) => {
     const userId = req.userId;
+    console.log(userId);
     try {
         const user = await User.findById(userId)
 
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-
-        console.log(user)
 
         res.send({username: user.username})
     } catch (error) {
@@ -32,8 +31,6 @@ router.get('/getHabits', verifyToken, async (req, res) => {
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-
-        console.log(user)
 
         res.send({habits: user.habits})
     } catch (error) {

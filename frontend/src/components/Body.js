@@ -17,7 +17,7 @@ class Body extends React.Component {
             anchorElNav: null,
             anchorElUser: null,
             isLoggedIn: null,
-            habits: null,
+            habits: [],
             addTaskVisible: null
         }
     }
@@ -34,7 +34,13 @@ class Body extends React.Component {
         if (token) {
             let verified = await authService.verify(token);
             if (verified === 'Token Verified') {
-                let response = await userService.getHabits();
+                let response;
+                console.log("Curren Token", token)
+                try {
+                    response = await userService.getHabits();
+                } catch (err) {
+                    console.error("Failure to get Habits", "\nToken:", token, "\nVerification Message: ", verified, "\nError: ", err)
+                }
                 console.log(response)
                 this.setState({ habits: response })
                 this.setState({ isLoggedIn: true })
