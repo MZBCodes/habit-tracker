@@ -107,4 +107,4 @@ const habitService = {
         }
     }
 }
-export { authService, userService };
+export { authService, userService, habitService };

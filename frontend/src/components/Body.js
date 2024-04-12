@@ -30,6 +30,8 @@ class Body extends React.Component {
     }
 
     componentDidMount = async () => {
+        this.props.themeManager.setPrimaryMain("#449D69")
+        this.props.themeManager.setPrimaryDark("#2d5a3e")
         let token = localStorage.getItem('token');
         if (token) {
             let verified = await authService.verify(token);

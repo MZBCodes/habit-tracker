@@ -10,7 +10,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import TextField from '@mui/material/TextField'
 import Checkbox from '@mui/material/Checkbox'
 import themeManager from '../Theme.js'
-import { authService, userService } from '../api/apiService.js'
+import { authService, userService, habitService } from '../api/apiService.js'
 import React from 'react'
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -47,14 +47,27 @@ class TaskModal extends React.Component {
         super(props)
         this.state = {
             open: false,
-            firstButtonChosen: false,
+            firstButtonChosen: true,
             secondButtonChosen: false
         }
         this.themeManager = new ThemeManager(this.props.theme)
     }
 
-    handleSubmit = (event) => {
-
+    handleSubmit = async (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        let obj = {
+            name: data.get('name'),
+            description: data.get('description'),
+            frequency: this.state.firstButtonChosen ? "Daily" : "Weekly",
+            completionStatus: "0"
+        }
+        console.log(obj)
+        try {
+            const response = await habitService.addHabit(obj)
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     handleClose = () => {
@@ -100,11 +113,11 @@ class TaskModal extends React.Component {
                                 Add Task
                             </Typography>
 
-                        </Container>
+                        </Container>    
 
                         <Divider orientation="horizontal" flexItem sx={{ mt: 1, opacity: 0.6, borderColor: "#FFF" }} />
                         <Container>
-                            <Box component="form" sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+                            <Box onSubmit={this.handleSubmit} component="form" sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12}>
                                         <TextField
